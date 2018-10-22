@@ -1,0 +1,70 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.imagescontainer{
+  width: 80%;
+  margin: 0 auto;
+  background-color: antiquewhite;
+  margin-bottom: 100px;
+}
+.swipeimagestag{
+  display:block;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.nameUsername{
+  width: 70%;
+  margin: 0 auto;
+  display: inline-block;
+}
+.imagesbtn1{
+  width: 50px
+}.imagesbtn2{
+  width: 50px
+}
+@media(max-width:760px) {
+  .imagesbtn2{
+    width: 35px;
+  }
+  .imagesbtn1{
+    width: 35px;
+  }
+}
+
+.fullname{
+  font-size: 22px;
+}
+.nickname{
+  font-size: 16px;
+}
