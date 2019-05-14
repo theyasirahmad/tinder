@@ -1,0 +1,198 @@
+import React, {
+    Component
+} from 'react';
+import './Profile.css';
+import firebase from './../../Config/firebase';
+import axios from 'axios';
+import swal from 'sweetalert';
+
+
+const provider = new firebase.auth.FacebookAuthProvider();
+
+class Profile extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            next: false,
+            nickname: "",
+            phonenumber: "",
+            image1: null,
+            image2: null,
+            image3: null,
+            image1src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
+            image2src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
+            image3src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
+            imagesUrl: [],
+        }
+        this.nicknameFunc = this.nicknameFunc.bind(this)
+        this.phonenumberFunc = this.phonenumberFunc.bind(this)
+        this.nextFunc = this.nextFunc.bind(this)
+
+    }
+    fileSelectedHandler = (index, event) => {
+
+        console.log(index)
+        // this.setState({
+        //     image1: event.target.files[0]
+
+        // })
+
+        var currentImage = event.target.files[0]
+        let reader = new FileReader()
+        reader.readAsDataURL(event.target.files[0])
+        reader.onloadend = () => {
+
+            switch (index) {
+                case 1:
+                    this.setState({
+                        image1src: reader.result,
+                        image1: currentImage
+                    })
+                    break;
+                case 2:
+                    this.setState({
+                        image2src: reader.result,
+                        image2: currentImage
+                    })
+                    break;
+                case 3:
+                    this.setState({
+                        image3src: reader.result,
+                        image3: currentImage
+                    })
+                    break;
+
+
+            }
+        }
+    }
+
+    fileUploadhandler = () => {
+        const currentuser = this.props.currentuser;
+        const { image1, image2, image3, imagesUrl } = this.state;
+        // console.log(currentuser.uid);
+        if (image1 && image2 && image3) {
+            var filePath = firebase.auth().currentUser.uid + '/' + image1.name;
+            console.log(filePath);
+            firebase.storage().ref(filePath).put(image1).then(function (fileSnapshot) {
+                fileSnapshot.ref.getDownloadURL().then((url) => {
+                    imagesUrl.push(url)
+                })
+                    .then(() => {
+                        var filePath = firebase.auth().currentUser.uid + '/' + image2.name;
+                        console.log(filePath);
+                        firebase.storage().ref(filePath).put(image2).then(function (fileSnapshot) {
+                            fileSnapshot.ref.getDownloadURL().then((url) => {
+                                imagesUrl.push(url)
+                            })
+                                .then(() => {
+                                    var filePath = firebase.auth().currentUser.uid + '/' + image3.name;
+                                    console.log(filePath);
+                                    firebase.storage().ref(filePath).put(image3).then(function (fileSnapshot) {
+                                        fileSnapshot.ref.getDownloadURL().then((url) => {
+                                            imagesUrl.push(url)
+                                        })
+                                            .then(() => {
+
+                                                swal("Upload successful")
+                                                console.log(imagesUrl);
+                                            })
+                                    })
+                                })
+                        })
+                    })
+
+            })
+
+
+        }
+        else {
+            swal("Select 3 Images")
+        }
+    }
+    nicknameFunc(e) {
+        this.setState({
+            nickname: e.target.value
+        })
+    }
+
+    phonenumberFunc(e) {
+        this.setState({
+            phonenumber: e.target.value
+        })
+    }
+    nextFunc() {
+        const { next } = this.state;
+
+        this.setState({
+            next: (next) ? !next : !next
+        })
+
+        console.log(next);
+    }
+    namenumberRender() {
+
+        const user = this.props.currentuser;
+        const { nickname, phonenumber } = this.state;
+        return (
+            <div className={"container"}>
+                <h1>{user.displayName}</h1>
+                <div className="form-group">
+                    <label htmlFor="nickname">Enter Your nickname</label>
+                    <input value={nickname} onChange={this.nicknameFunc} type="nickname" placeholder="Enter Your nickname" className="form-control" id="nickname" />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="phnumber">Phone no:</label>
+                    <input value={phonenumber} onChange={this.phonenumberFunc} type="number" placeholder="Enter your Phone number" className="form-control" id="phnumber" />
+                </div>
+                <button onClick={this.nextFunc} className="btn btn-warning">Next</button>
+            </div>
+        )
+    }
+    uploadImagesRender() {
+        const { image1src, image2src, image3src } = this.state;
+        var text = "<= Back"
+        return (
+            <div className="container">
+                <h2>Upload your photos</h2>
+                <div className="form-group">
+                    <input style={{ display: "none" }}
+                        onChange={(e) => this.fileSelectedHandler(1, e)}
+                        type="file" id="image1" accept="image/*"
+                        ref={imageinput1 => this.imageinput1 = imageinput1}
+                    />
+                    <img className="pictures" title="Click to upload" onClick={() => this.imageinput1.click()} src={image1src} alt="img" />
+
+                    <input style={{ display: "none" }}
+                        onChange={(e) => this.fileSelectedHandler(2, e)}
+                        type="file" id="image1" accept="image/*"
+                        ref={imageinput2 => this.imageinput2 = imageinput2}
+                    />
+                    <img className="pictures" title="Click to upload" onClick={() => this.imageinput2.click()} src={image2src} alt="img" />
+
+                    <input style={{ display: "none" }}
+                        onChange={(e) => this.fileSelectedHandler(3, e)}
+                        type="file" id="image1" accept="image/*"
+                        ref={imageinput3 => this.imageinput3 = imageinput3}
+                    />
+                    <img className="pictures" title="Click to upload" onClick={() => this.imageinput3.click()} src={image3src} alt="img" />
+
+
+                </div>
+                <button onClick={this.nextFunc} className="btn btn-default"> {text}</button>
+                <button onClick={this.fileUploadhandler} className="btn btn-default" >Upload</button>
+            </div>
+        )
+    }
+    render() {
+        const { next } = this.state;
+        return (
+            <div>
+                {!next && this.namenumberRender()}
+                {next && this.uploadImagesRender()}
+            </div>
+        );
+    }
+}
+
+export default Profile;

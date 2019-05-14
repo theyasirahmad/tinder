@@ -1,0 +1,19 @@
+.react-calendar{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 300px !important;
+
+}
+.timepicker{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block;
+
+}
+.react-time-picker__wrapper{
+    width: 250px;
+    margin: 0 auto;
+}
+.datetimepicker{
+    margin-top: 10vh;
+}

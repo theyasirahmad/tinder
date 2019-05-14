@@ -1,0 +1,116 @@
+.container h1{
+    font-style: italic;
+    font-family: 'Charmonman', cursive;
+    font-size: 4em;
+    margin-bottom: 0px;
+}
+.container button{
+    font-family: 'Charmonman', cursive;
+}
+.tagline {
+    font-family: 'Charmonman', cursive;
+    color: red;
+
+}
+.container{
+
+    top: 30%;
+    text-align: center;
+    display: block;
+    margin: 100px auto;
+    width: 50%;
+}
+
+@media( max-width: 992px) and (min-width: 768px){
+    .container{
+
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+        width: 80%;
+    }
+    .bevcontainer{
+      text-align: center;
+      display: block;
+      margin: 20px auto;
+      width: 80%;
+  }
+}
+@media(max-width: 768px) {
+
+    .container{
+        top: 30%;
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+        width: 80%;
+    }
+    .container h1{
+      font-family: 'Charmonman', cursive;
+      font-size: 3em;
+      margin-bottom: 0px;
+    }
+}
+
+.meetingstatusdiv{
+    border: 2px solid black;
+    border-top-right-radius: 50px;
+    border-top-left-radius: 50px;
+
+    width: 97%;
+    max-width: 700px;
+    height: 470px;
+    margin: 0 auto;
+    margin-top: 10px;
+    
+}
+.meetingstatusdiv h1{font-size: 18px; text-align: center;}
+.meetingstatusdiv h2{font-size: 15px; text-align: center; margin-top: 0px}
+
+.meetingstatusdiv img {
+    text-align: center;
+    margin: 0 auto;
+    max-height: 280px;
+    width: 100%;
+}
+.meetingstatusdiv button{
+    margin: 0 auto !important;
+    display: block;
+}
+
+ .floatingBtn{
+    position: fixed;
+    right: 50px;
+    bottom: 40px;
+    width:60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 10px;
+    box-shadow: 0;
+    background: transparent;
+    border-color: #d34836;
+    color: #d34836;
+    border-style: solid;
+    transition: 2s;  
+    
+  }
+  .floatingBtn:hover{
+    background-color: #d34836;
+    color: white;
+    transition: 1s;
+  
+  }
+  .meetingpopup{
+      margin-top: 20px !important;
+      width: 145px !important;
+      height: 145px !important;
+      border-radius: 50%;
+      /* border: 1px solid d34836; */
+      margin: 0 auto;
+
+  }
+  .meetingpopupdiv{
+      display: block;
+      margin: 0 auto;
+      width: max-content;
+  }

@@ -1,0 +1,144 @@
+.container h1{
+    font-style: italic;
+    font-family: 'Charmonman', cursive;
+    font-size: 4em;
+    margin-bottom: 0px;
+}
+.container button{
+    font-family: 'Charmonman', cursive;
+}
+.tagline {
+    font-family: 'Charmonman', cursive;
+    color: red;
+
+}
+.container{
+
+    top: 30%;
+    text-align: center;
+    display: block;
+    margin: 100px auto;
+    width: 80%;
+}
+#nickname,#phnumber{
+    width: 60%;
+    margin: 0 auto;
+}
+.pictures{
+    width: 215px !important;
+    margin: 20px;
+}
+.container h2{
+    font-family: 'Charmonman', cursive;
+
+}
+.btn-default{
+    margin-left: 5px;
+}
+
+@media( max-width: 992px) and (min-width: 768px){
+    .container{
+
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+        width: 80%;
+    }
+    .bevcontainer{
+      text-align: center;
+      display: block;
+      margin: 20px auto;
+      width: 80%;
+  }
+}
+@media(max-width: 768px) {
+
+    .container{
+        top: 30%;
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+        width: 80%;
+    }
+    .bevcontainer{
+      top: 30%;
+      text-align: center;
+      display: block;
+      margin: 20px auto;
+      width: 80%;
+    }    
+    .bevcontainer h1{
+        font-style: italic;
+        font-family: 'Charmonman', cursive;
+        font-size: 3em !important;
+        margin-bottom: 0px;
+    }
+    .container h1{
+      font-style: italic;
+      font-family: 'Charmonman', cursive;
+      font-size: 3em;
+      margin-bottom: 0px;
+    }        
+    #nickname,#phnumber{
+        width: 90%;
+        margin: 0 auto;
+        
+    }
+    .pictures{
+        width: 180px !important;
+        margin: 20px auto;
+        display: block;
+    }
+}
+.beverages{
+  height: 200px;
+  width: 210px !important;
+}
+.beverages:hover{
+  filter: brightness(90%);
+  box-shadow: 0px 0px 5px orange;
+}
+.beveragesSelected{
+  height: 200px;
+  width: 210px !important;
+  border: 2px solid red;
+  box-shadow: 0px 0px 5px ;
+}
+.beveragesSelected:hover{
+  filter: brightness(90%);
+  box-shadow: 0px 0px 5px orange;
+
+}
+
+.bevcontainer ul {
+  font-size: 20px;
+  padding: 0px !important;
+}
+.bevcontainer li {
+  font-size: 18px; 
+  list-style: none;
+  font-family: 'Charmonman', cursive;
+  display: inline;
+  margin: 5px ;
+}
+.bevcontainer{
+  text-align: center;
+  display: block;
+  margin: 30px auto;
+  width: 80%;
+}
+.bevcontainer h1{
+  font-style: italic;
+  font-family: 'Charmonman', cursive;
+  font-size: 4em;
+  margin-bottom: 0px;
+}
+.bevcontainer button{
+  font-family: 'Charmonman', cursive;
+}
+.meetingcontainer h2{
+  font-family: 'Charmonman', cursive;
+}
+.starcolor{
+  color:red;
+}

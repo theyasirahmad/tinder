@@ -1,0 +1,22 @@
+.container h1{
+    font-style: italic;
+    font-family: 'Charmonman', cursive;
+    font-size: 4em;
+    margin-bottom: 0px;
+}
+.container button{
+    font-family: 'Charmonman', cursive;
+}
+.tagline {
+    font-family: 'Charmonman', cursive;
+    color: red;
+
+}
+.container{
+
+    top: 30%;
+    text-align: center;
+    display: block;
+    margin: 100px auto;
+    width: 50%;
+}

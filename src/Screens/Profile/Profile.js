@@ -3,12 +3,13 @@ import React, {
 } from 'react';
 import './Profile.css';
 import firebase from './../../Config/firebase';
-import axios from 'axios';
 import swal from 'sweetalert';
 import Maps from './../Maps/Maps';
+import { connect } from 'react-redux'
+import { updateUser, removeUser } from '../../Redux/actions/authActions'
 
 
-const provider = new firebase.auth.FacebookAuthProvider();
+// const provider = new firebase.auth.FacebookAuthProvider();
 
 class Profile extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class Profile extends Component {
             image1: null,
             image2: null,
             image3: null,
-            image1src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
+            image1src: ".//upload.png",
             image2src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
             image3src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
             imagesUrl: [],
@@ -33,6 +34,8 @@ class Profile extends Component {
             duration2: false,
             duration3: false,
             coords: "",
+            alldone: false,
+            counter: 0
 
         }
         this.nicknameFunc = this.nicknameFunc.bind(this)
@@ -72,16 +75,43 @@ class Profile extends Component {
                         image3: currentImage
                     })
                     break;
-
+                default:
+                    swal("some thing went wrong")
 
             }
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
 
+        const counter  = state.counter;
+        if (props.user !== undefined && counter === 0) {
+            // alert(props.user.name)
+            return {
+                nickname: props.user.name,
+                phonenumber: props.user.phonenumber,
+                image1src: props.user.imagesUrl[0],
+                image2src: props.user.imagesUrl[1],
+                image3src: props.user.imagesUrl[2],
+                imagesUrl: [],
+                // progressPercent: "",
+                image1: true,
+                image2: true,
+                image3: true,
+                coffee: props.user.coffee,
+                cocktail: props.user.cocktail,
+                juice: props.user.juice,
+                duration1: props.user.duration1,
+                duration2: props.user.duration2,
+                duration3: props.user.duration3,
+                counter:1,
+            }
+        }
+        return {}
+    }
     fileUploadhandler = () => {
         var uploadTask;
-        const currentuser = this.props.currentuser;
+        // const currentuser = this.props.currentuser;
         const { image1, image2, image3, imagesUrl, progressPercent } = this.state;
         // console.log(currentuser.uid);
 
@@ -114,15 +144,29 @@ class Profile extends Component {
                         case firebase.storage.TaskState.SUCCESS:
                             console.log("uploaded")
                             break;
+                        default:
+                            swal("some thing went wrong")
+
                     }
                 }).bind(this)
-                uploadTask.then(function (fileSnapshot) {
+                uploadTask.then((fileSnapshot) => {
                     fileSnapshot.ref.getDownloadURL()
                         .then((url) => {
                             imagesUrl.push(url)
                             console.log(imagesUrl)
-                            if (imagesUrl.length === 3) {
-                                swal("Upload completed!", "", "success");
+                            if (imagesUrl.length <= 3) {
+                                // swal("Click on either the button or outside the modal.")
+                                //     .then((value) => {
+                                //     console.log(this)
+                                //     console.log(value)
+
+                                //     });
+                                swal("Upload completed!")
+                                    .then((value) => {
+                                        this.setState({ beverages: true })
+                                        console.log(this)
+                                    });
+
                             }
                         })
                 });
@@ -171,6 +215,9 @@ class Profile extends Component {
                     cocktail: (cocktail) ? !cocktail : !cocktail,
                 })
                 break;
+            default:
+                swal("some thing went wrong")
+
         }
     }
     updateMeetingTime(i) {
@@ -191,6 +238,9 @@ class Profile extends Component {
                     duration3: (duration3) ? !duration3 : !duration3,
                 })
                 break;
+            default:
+                swal("some thing went wrong")
+
         }
     }
 
@@ -212,7 +262,7 @@ class Profile extends Component {
 
         db.collection("users")
             .doc(currentuser.uid)
-            .set({ location: location, name: currentuser.displayName, nickname: nickname, phonenumber: phonenumber, coffee: coffee, juice: juice, cocktail: cocktail, duration1: duration1, duration2: duration2, duration3: duration3 })
+            .set({ location: location, name: currentuser.displayName, nickname: nickname, phonenumber: phonenumber, coffee: coffee, juice: juice, cocktail: cocktail, duration1: duration1, duration2: duration2, duration3: duration3, imagesUrl: imagesUrl, uid: currentuser.uid })
             .then(() => {
                 swal("Data Submitted Successfully")
                 this.props.saveDataStatus();
@@ -264,16 +314,16 @@ class Profile extends Component {
                 {
                     <div className="meetingcontainer">
                         <ul>{<h2>duration of meeting</h2>}</ul>
-                        <li onClick={() => this.updateMeetingTime(1)} ><span className={duration1 && filledStarClass || emptyStarClass}></span>20 mins</li>
-                        <li onClick={() => this.updateMeetingTime(2)} ><span className={duration2 && filledStarClass || emptyStarClass}></span>60 min</li>
-                        <li onClick={() => this.updateMeetingTime(3)} ><span className={duration3 && filledStarClass || emptyStarClass}></span>120 min</li>
+                        <li onClick={() => this.updateMeetingTime(1)} ><span className={(duration1 && filledStarClass) || (emptyStarClass)}></span>20 mins</li>
+                        <li onClick={() => this.updateMeetingTime(2)} ><span className={(duration2 && filledStarClass) || emptyStarClass}></span>60 min</li>
+                        <li onClick={() => this.updateMeetingTime(3)} ><span className={(duration3 && filledStarClass) || emptyStarClass}></span>120 min</li>
                     </div>
 
 
                 }
                 {(juice || coffee || cocktail) && (duration1 || duration2 || duration3) &&
                     <div>
-                        <button className="btn btn-default">Next</button>
+                        <button onClick={() => { this.setState({ alldone: true }) }} className="btn btn-default">Next</button>
                     </div>
                 }
             </div>
@@ -283,6 +333,7 @@ class Profile extends Component {
 
         const user = this.props.currentuser;
         const { nickname, phonenumber } = this.state;
+
         return (
             <div className={"container"}>
                 <h1>{user.displayName}</h1>
@@ -318,6 +369,8 @@ class Profile extends Component {
                         ref={imageinput2 => this.imageinput2 = imageinput2}
                     />
                     <img className="pictures" title="Click to upload" onClick={() => this.imageinput2.click()} src={image2src} alt="img" />
+                    
+                    
                     <input style={{ display: "none" }}
                         onChange={(e) => this.fileSelectedHandler(3, e)}
                         type="file" id="image1" accept="image/*"
@@ -341,16 +394,32 @@ class Profile extends Component {
         )
     }
     render() {
-        const { next, beverages } = this.state;
+        const { next, beverages, alldone } = this.state;
         return (
             <div>
-                {/* {!beverages && !next && this.namenumberRender()}
-                {!beverages && next && this.uploadImagesRender()}
-                {beverages && this.beveragesRender()} */}
-                {this.mapRender()}
+                {!alldone && !beverages && !next && this.namenumberRender()}
+                {!alldone && !beverages && next && this.uploadImagesRender()}
+                {!alldone && beverages && this.beveragesRender()}
+                {alldone && this.mapRender()}
             </div>
         );
     }
 }
 
-export default Profile;
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducers.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUser: (user) => dispatch(updateUser(user)),
+        removeUser: () => dispatch(removeUser())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+// export default Profile;
