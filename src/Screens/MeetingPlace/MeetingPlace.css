@@ -1,18 +1,18 @@
 
 .inner-addon {
-    position: relative;
-  }
-  
-  /* style glyph */
-  .inner-addon .glyphicon {
-    position: absolute;
-    padding: 10px;
-    pointer-events: none;
-  }
-  
-  /* align glyph */
-  .right-addon .glyphicon { right: 0px;}
-  
-  /* add padding  */
-  .right-addon input { padding-right: 30px; }
-  .glyphicon-search{ z-index: 1000;}
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.right-addon input { padding-right: 30px; }
+.glyphicon-search{ z-index: 1000;}

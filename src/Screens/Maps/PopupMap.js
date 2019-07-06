@@ -43,7 +43,7 @@ class PopupMap extends Component {
 
     getDirections = (e) => {
 
-        const { directions } = this.state;
+        // const { directions } = this.state;
 
         if (e !== "back") {
             const searchFlag = this.props.searchFlag;

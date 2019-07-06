@@ -32,7 +32,7 @@ class Dashboard extends Component {
             counter: 0,
             selectedPlace: null,
             directions: null,
-            readyToGo:null,
+            readyToGo: null,
         }
 
     }
@@ -65,7 +65,7 @@ class Dashboard extends Component {
 
         var users = [];
         const db = firebase.firestore();
-        db.settings({ timestampsInSnapshots: true })
+        // db.settings({ timestampsInSnapshots: true })
 
         const userinfo = this.props.userinfo;
         // console.log(userinfo.location.latitude + " + " + userinfo.location.longitude);
@@ -101,9 +101,9 @@ class Dashboard extends Component {
 
         var meetings = [];
         const db = firebase.firestore();
-        db.settings({ timestampsInSnapshots: true })
+        // db.settings({ timestampsInSnapshots: true })
 
-        console.log(userinfo);
+        // console.log(userinfo);
 
         db.collection('meetings')
             .where('sender', "==", `${userinfo.uid}`)
@@ -114,13 +114,33 @@ class Dashboard extends Component {
                 })
             })
             .then(() => {
-                if (meetings.length != 0) {
+                if (meetings.length !== 0) {
                     this.setState({
                         meetings: meetings
                     })
                     console.log(meetings)
                 }
+                //NEW
+                db.collection('meetings')
+                    .where('reciever', "==", `${userinfo.uid}`)
+                    .get()
+                    .then((snapshot) => {
+                        snapshot.forEach((doc) => {
+                            meetings.push(doc.data())
+                        })
+                    })
+                    .then(() => {
+                        if (meetings.length !== 0) {
+                            this.setState({
+                                meetings: meetings
+                            })
+                            console.log(meetings)
+                        }
+                    })
+                //NEW
             })
+
+
 
         var requestedMeetings = [];
         var requestedMeetingsResponded = []
@@ -130,6 +150,7 @@ class Dashboard extends Component {
             // .where("status", "==", "pending")
             .get()
             .then((snapshot) => {
+                console.log(snapshot)
                 snapshot.forEach((doc) => {
                     if (doc.data().status === "pending") {
 
@@ -142,20 +163,20 @@ class Dashboard extends Component {
                 })
             })
             .then(() => {
-                if (requestedMeetings.length != 0 && requestedMeetingsResponded.length != 0) {
+                if (requestedMeetings.length !== 0 && requestedMeetingsResponded.length !== 0) {
 
                     this.setState({
                         requestedMeetings: requestedMeetings,
                         requestedMeetingsResponded: requestedMeetingsResponded
                     })
                 }
-                else if (requestedMeetings.length != 0) {
+                else if (requestedMeetings.length !== 0) {
 
                     this.setState({
                         requestedMeetings: requestedMeetings,
                     })
                 }
-                else if (requestedMeetingsResponded.length != 0) {
+                else if (requestedMeetingsResponded.length !== 0) {
 
                     this.setState({
                         meetings: Object.assign([], this.state.meetings, requestedMeetingsResponded)
@@ -166,8 +187,9 @@ class Dashboard extends Component {
     }
     componentDidMount() {
         this.initialFunc()
+
         setTimeout(() => {
-            this.setState({readyToGo:true})
+            this.setState({ readyToGo: true })
         }, 1000);
     }
     locationMapRender = (item) => {
@@ -192,15 +214,15 @@ class Dashboard extends Component {
         const { requestedMeetings, counter, selectedPlace } = this.state;
 
         if (counter !== requestedMeetings.length) {
+
+
             // console.log(counter === requestedMeetings.length)
             // console.log("counter" +counter )
             // console.log("requestedMeetings.length" +requestedMeetings.length )
 
             const userinfo = this.props.userinfo;
-
-
             const db = firebase.firestore();
-            db.settings({ timestampsInSnapshots: true })
+            // db.settings({ timestampsInSnapshots: true })
 
 
 
@@ -222,7 +244,7 @@ class Dashboard extends Component {
                         <h2>Status : {requestedMeetings[counter].status}</h2>
                         <h2>Meeting date : {requestedMeetings[counter].date}</h2>
                         <h2>Meeting time : {requestedMeetings[counter].time}</h2>
-                        <h2>Meeting location : {requestedMeetings[counter].selectedPlace.venue.name}</h2>
+                        <h2>Meeting location : {(requestedMeetings[counter].searchedplacetoggle) ? requestedMeetings[counter].selectedPlace.name : requestedMeetings[counter].selectedPlace.venue.name}</h2>
                         <h2>Meeting Duration : {requestedMeetings[counter].duration}</h2>
                         <button className={"btn btn-default"} onClick={() => {
                             this.locationMapRender(requestedMeetings[counter].selectedPlace)
@@ -331,8 +353,8 @@ class Dashboard extends Component {
             allmeetings = meetings;
             allmeetings.push(...requestedMeetingsResponded)
         }
-        console.log(allmeetings)
-        console.log(userinfo.uid)
+        //console.log(allmeetings)
+        // console.log(userinfo.uid)
         return (
             <div className={"row"}>
                 {
@@ -340,19 +362,20 @@ class Dashboard extends Component {
                         let event = {
                             title: `Meeting with :${item.sender}`,
                             description: `date of meeting :${item.date}`,
-                            location: item.selectedPlace.venue.name,
+                            location: (item.searchedplacetoggle) ? item.selectedPlace.name : item.selectedPlace.venue.name,
                         };
 
                         if (item.sender === userinfo.uid) {
                             return (
                                 <div key={index} className={"col-xs-12 col-sm-6 col-md-4 col-lg-3"}>
-                                    <div className={"meetingstatusdiv "} key={index}>
+                                    <div className={"meetingstatusdiv sent"} key={index}>
                                         <h1>Name: {item.recievername}</h1>
                                         <h2>Status : {item.status}</h2>
                                         <h2>Meeting date : {item.date}</h2>
                                         <h2>Meeting time : {item.time}</h2>
-                                        <h2>Meeting location : {item.selectedPlace.venue.name}</h2>
-                                        <button disabled={item.status !== "Accepted" && "true"} className={"btn btn-default"} onClick={() => { this.addtocalanderFunc(event) }}>
+                                        {(item.searchedplacetoggle) ? <h2>Meeting location : {item.selectedPlace.name}</h2> : <h2>Meeting location : {item.selectedPlace.venue.name}</h2>}
+
+                                        <button disabled={(item.status !== "Accepted" && "true") ? 1 : 0} className={"btn btn-default"} onClick={() => { this.addtocalanderFunc(event) }}>
                                             Add event to calander
                                         </button>
                                         <img src={item.recieveravatar} alt="userprofile" />
@@ -365,14 +388,17 @@ class Dashboard extends Component {
                         }
                         else {
                             return (
-                                <div key={index} className={"   col-xs-12 col-sm-6 col-md-4 col-lg-3"}>
-                                    <div className={"meetingstatusdiv "} key={index}>
+                                <div key={index} className={"col-xs-12 col-sm-6 col-md-4 col-lg-3 "}>
+                                    <div className={"meetingstatusdiv"} key={index}>
                                         <h1>Name: {item.sendername}</h1>
                                         <h2>Status : {item.status}</h2>
                                         <h2>Meeting date : {item.date}</h2>
                                         <h2>Meeting time : {item.time}</h2>
-                                        <h2>Meeting location : {item.selectedPlace.venue.name}</h2>
-                                        <hr />
+                                        <h2>Meeting location : {(item.searchedplacetoggle) ? item.selectedPlace.name : item.selectedPlace.venue.name}</h2>
+                                        {/* <hr /> */}
+                                        <button disabled={(item.status !== "Accepted" && "true") ? 1 : 0} className={"btn btn-default"} onClick={() => { this.addtocalanderFunc(event) }}>
+                                            Add event to calander
+                                        </button>
                                         <img src={item.senderavatar} alt="userprofile" />
                                     </div>
 
@@ -388,51 +414,51 @@ class Dashboard extends Component {
     }
     render() {
         const { meetings, requestedMeetings, selectedPlace, readyToGo } = this.state;
-        const currentuser = this.props.userinfo;
+        // const currentuser = this.props.userinfo;
 
         return (
             <div>
                 {
                     readyToGo &&
 
-            <div>
-            {
-                !requestedMeetings &&
-                <div>
-                    {!meetings && <div className="container" >
-                        <h1 style={{ textAlign: "center" }}>You haven’t done any meeting yet!”, try creating a new meeting! </h1>
-                        <br /> <br />
-                        <button onClick={this.requestForMeeting} className="btn btn-warning">Set A Meeting</button>
-                    </div>}
+                    <div>
+                        {
+                            !requestedMeetings &&
+                            <div>
+                                {!meetings && <div className="container" >
+                                    <h1 style={{ textAlign: "center" }}>You haven’t done any meeting yet!”, try creating a new meeting! </h1>
+                                    <br /> <br />
+                                    <button onClick={this.requestForMeeting} className="btn btn-warning">Set A Meeting</button>
+                                </div>}
 
-                    {
-                        meetings && this.meetingsStautsRender()
-                    }
-                    {meetings &&
-                        //new meeting floating btn
-                        <button onClick={() => { this.requestForMeeting() }} className={"floatingBtn"}>New Meeting</button>
-                    }
+                                {
+                                    meetings && this.meetingsStautsRender()
+                                }
+                                {meetings &&
+                                    //new meeting floating btn
+                                    <button onClick={() => { this.requestForMeeting() }} className={"floatingBtn"}>New Meeting</button>
+                                }
 
-                </div>
-            }
+                            </div>
+                        }
 
-            {
-                (requestedMeetings
-                    &&
-                    this.requestedMeetingsRender()
-                )
-                ||
-                (selectedPlace
-                    // &&
+                        {
+                            (requestedMeetings
+                                &&
+                                this.requestedMeetingsRender()
+                            )
+                            ||
+                            (selectedPlace
+                                // &&
 
 
-                )
-            }
-            <button onClick={() => { this.editProfile() }} className={"floatingBtn1"}>
-                edit profile
+                            )
+                        }
+                        <button onClick={() => { this.editProfile() }} className={"floatingBtn1"}>
+                            edit profile
             </button>
-        </div>
-    
+                    </div>
+
                 }
                 {
                     !readyToGo && <h1>Loading</h1>

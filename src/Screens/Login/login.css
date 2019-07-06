@@ -1,22 +1,24 @@
 .container h1{
-    font-style: italic;
-    font-family: 'Charmonman', cursive;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     font-size: 4em;
     margin-bottom: 0px;
 }
 .container button{
-    font-family: 'Charmonman', cursive;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+
 }
 .tagline {
-    font-family: 'Charmonman', cursive;
     color: red;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 
 }
 .container{
-
     top: 30%;
     text-align: center;
     display: block;
     margin: 100px auto;
     width: 50%;
+}
+.container p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }

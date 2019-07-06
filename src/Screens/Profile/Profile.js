@@ -7,7 +7,9 @@ import swal from 'sweetalert';
 import Maps from './../Maps/Maps';
 import { connect } from 'react-redux'
 import { updateUser, removeUser } from '../../Redux/actions/authActions'
-
+import coffeeSrc from './one.jpg';
+import cocktailSrc from './two.jpg';
+import juiceSrc from './three.jpg';
 
 // const provider = new firebase.auth.FacebookAuthProvider();
 
@@ -22,8 +24,8 @@ class Profile extends Component {
             image2: null,
             image3: null,
             image1src: ".//upload.png",
-            image2src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
-            image3src: "https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png",
+            image2src: ".//upload.png",
+            image3src: ".//upload.png",
             imagesUrl: [],
             progressPercent: "",
             beverages: false,
@@ -35,7 +37,8 @@ class Profile extends Component {
             duration3: false,
             coords: "",
             alldone: false,
-            counter: 0
+            counter: 0,
+
 
         }
         this.nicknameFunc = this.nicknameFunc.bind(this)
@@ -84,7 +87,7 @@ class Profile extends Component {
 
     static getDerivedStateFromProps(props, state) {
 
-        const counter  = state.counter;
+        const counter = state.counter;
         if (props.user !== undefined && counter === 0) {
             // alert(props.user.name)
             return {
@@ -104,7 +107,7 @@ class Profile extends Component {
                 duration1: props.user.duration1,
                 duration2: props.user.duration2,
                 duration3: props.user.duration3,
-                counter:1,
+                counter: 1,
             }
         }
         return {}
@@ -253,7 +256,7 @@ class Profile extends Component {
 
 
         const db = firebase.firestore();
-        db.settings({ timestampsInSnapshots: true })
+        // db.settings({ timestampsInSnapshots: true })
 
         const { coords, coffee, juice, cocktail, duration1, duration2, duration3, imagesUrl, phonenumber, nickname } = this.state;
         const currentuser = this.props.currentuser;
@@ -281,14 +284,7 @@ class Profile extends Component {
         )
     }
     beveragesRender() {
-        const { juice, coffee, cocktail, duration1, duration2, duration3 } = this.state;
-        // var coffeeSrc = "https://thelondonpost.net/wp-content/uploads/2018/03/Americans-are-drinking-a-daily-cup-of-coffee.jpg"
-        // var cocktailSrc = "https://img1.kochrezepte.at/use/8/green-mamba_8225.jpg";
-        // var juiceSrc = "http://images.media-allrecipes.com/userphotos/960x960/3758394.jpg";
-
-        var juiceSrc = "https://image.flaticon.com/icons/svg/77/77403.svg";
-        var coffeeSrc = "http://getdrawings.com/img/silhouette-coffee-cup-14.jpg"
-        var cocktailSrc = "https://cdn-images-1.medium.com/max/1200/1*c5cUtn-EnOz-NH9fxkrP2Q.png";
+        const { juice, coffee, cocktail, duration1, duration2, duration3  } = this.state;
 
 
         var coffeeClass, juiceClass, cocktailClass;
@@ -305,7 +301,7 @@ class Profile extends Component {
                 {<img onClick={() => this.SelectBev(3)} className={cocktailClass} src={cocktailSrc} alt="cocktail" />}
                 {(juice || coffee || cocktail) &&
                     <div>
-                        <ul>{<h3>Selected list</h3>}</ul>
+                        <ul>{<h3>---  SELECTED LIST  ---</h3>}</ul>
                         {juice && <li >juice</li>}
                         {coffee && <li>coffee</li>}
                         {cocktail && <li>cocktail</li>}
@@ -313,7 +309,7 @@ class Profile extends Component {
                 }
                 {
                     <div className="meetingcontainer">
-                        <ul>{<h2>duration of meeting</h2>}</ul>
+                        <ul>{<h4>---  Duration of Meeting  ---</h4>}</ul>
                         <li onClick={() => this.updateMeetingTime(1)} ><span className={(duration1 && filledStarClass) || (emptyStarClass)}></span>20 mins</li>
                         <li onClick={() => this.updateMeetingTime(2)} ><span className={(duration2 && filledStarClass) || emptyStarClass}></span>60 min</li>
                         <li onClick={() => this.updateMeetingTime(3)} ><span className={(duration3 && filledStarClass) || emptyStarClass}></span>120 min</li>
@@ -369,8 +365,8 @@ class Profile extends Component {
                         ref={imageinput2 => this.imageinput2 = imageinput2}
                     />
                     <img className="pictures" title="Click to upload" onClick={() => this.imageinput2.click()} src={image2src} alt="img" />
-                    
-                    
+
+
                     <input style={{ display: "none" }}
                         onChange={(e) => this.fileSelectedHandler(3, e)}
                         type="file" id="image1" accept="image/*"

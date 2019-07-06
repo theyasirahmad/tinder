@@ -67,6 +67,7 @@ class MeetingPlace extends Component {
       })
     );
   };
+
   updateCoords = () => {
     console.log("updateCoords");
   };
@@ -111,7 +112,7 @@ class MeetingPlace extends Component {
     });
 
     const db = firebase.firestore();
-    db.settings({ timestampsInSnapshots: true });
+    // db.settings({ timestampsInSnapshots: true });
     db.collection("meetings").add({})
       .then((res) => {
         // console.log(res.id);
@@ -172,7 +173,7 @@ class MeetingPlace extends Component {
   render() {
     const { venues, selectedPlace } = this.state;
 
-    // const selectedUser = this.props.selectedUser;
+    const selectedUser = this.props.selectedUser;
 
     // const currentuser = this.props.currentuser;
     // const geolocation = currentuser.location;
@@ -181,26 +182,27 @@ class MeetingPlace extends Component {
 
     // const coords = [{latitude:latitude,longitude:longitude}]
 
-    // console.log(selectedUser);
-    // console.log(venues);
+    console.log(selectedUser);
+    console.log(venues);
 
     return (
       <div>
         {!venues && <h1>loading...</h1>}
-        {/* {!selectedPlace && venues &&
+        
+          {/* {!selectedPlace && venues &&
           <div style={{ marginBottom: "0px" }} className="" >
-            <div style={{ marginBottom: "0px" }} className="">
-              <input style={{ maxWidth: "300px" }} onChange={(e) => { this.setPlacetoSearch(e) }} type="text" placeholder="Place to Search" class="form-control" />
-            </div>
-            <button style={{}} onClick={() => { this.searchNearByLocation() }} className="btn btn-default">Search Places</button>
+          <div style={{ marginBottom: "0px" }} className="">
+            <input style={{ maxWidth: "300px" }} onChange={(e) => { this.setPlacetoSearch(e) }} type="text" placeholder="Place to Search" className="form-control" />
           </div>
+          <button  onClick={() => { this.searchNearByLocation() }} className="btn btn-default">Search Places</button>
+        </div>
 
         } */}
         {
-          // !selectedPlace && venues &&  == true == show
+          //  !selectedPlace && venues  && // == true == show
           <div
             className="inner-addon right-addon"
-            style={(!selectedPlace && venues) || { visibility: "hidden" }}
+            style={(!selectedPlace && venues) ? {visibility : "visible"} : { visibility: "hidden" }}
           >
             <i className="glyphicon glyphicon-search" />
             <input
@@ -212,8 +214,7 @@ class MeetingPlace extends Component {
               className="form-control"
               placeholder="Place to Search"
             />
-          </div>
-        }
+          </div>}
         {!selectedPlace && venues && this.mapRender(venues)}
         {selectedPlace && <Datetime datetime={this.datetime} />}
       </div>

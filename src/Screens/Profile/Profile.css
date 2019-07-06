@@ -5,11 +5,12 @@
     margin-bottom: 0px;
 }
 .container button{
-    font-family: 'Charmonman', cursive;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+
 }
 .tagline {
-    font-family: 'Charmonman', cursive;
     color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
 
 }
 .container{
@@ -28,9 +29,12 @@
     width: 215px !important;
     margin: 20px;
 }
-.container h2{
-    font-family: 'Charmonman', cursive;
+.container h2, h3 , h4 {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
 
+}
+h3 , h4{
+  text-decoration: underline;
 }
 .btn-default{
     margin-left: 5px;
@@ -117,7 +121,7 @@
 .bevcontainer li {
   font-size: 18px; 
   list-style: none;
-  font-family: 'Charmonman', cursive;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   display: inline;
   margin: 5px ;
 }
@@ -129,15 +133,18 @@
 }
 .bevcontainer h1{
   font-style: italic;
-  font-family: 'Charmonman', cursive;
   font-size: 4em;
   margin-bottom: 0px;
 }
 .bevcontainer button{
   font-family: 'Charmonman', cursive;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+
 }
 .meetingcontainer h2{
   font-family: 'Charmonman', cursive;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+
 }
 .starcolor{
   color:red;

@@ -4,8 +4,9 @@ import React, {
 import './App.css';
 import { css } from 'react-emotion';
 import firebase from './Config/firebase';
+import 'firebase/auth';
 import Login from './Screens/Login/Login';
-import Maps from './Screens/Maps/Maps';
+// import Maps from './Screens/Maps/Maps';
 import Profile from './Screens/Profile/Profile';
 import Dashboard from './Screens/Dashboard/Dashboard';
 import Meeting from './Screens/Meeting/Meeting.js';
@@ -61,7 +62,7 @@ class App extends Component {
   checkDatabase = (user) => {
 
     const db = firebase.firestore();
-    db.settings({ timestampsInSnapshots: true })
+    // db.settings({ timestampsInSnapshots: true })
 
 
     db.collection('users').get()

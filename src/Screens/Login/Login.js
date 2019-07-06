@@ -42,11 +42,11 @@ class Login extends Component {
         return (
             <div className={"container"}>
                 <h1>Finder. </h1>
-                <p className={"tagline"}> the perfect meeting app</p>
+                <p className={"tagline"}>THE PERFECT MEETING APP</p>
                 <button title={"login with facebook"} className={"btn btn-danger"} onClick={this.login}>LOGIN</button>
                 <br/>
                 <br/>
-                <p>Login find-er using facebook account</p>
+                <p>Login find-er using FACEBOOK account</p>
             </div>
         )
     }

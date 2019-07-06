@@ -108,7 +108,7 @@ class NearByMap extends Component {
     }
     getDirections = () => {
 
-        const searchFlag = this.props.searchFlag;
+        // const searchFlag = this.props.searchFlag;
         const { coords, selectedLocation, directions } = this.state;
         if (!directions) {
             const DirectionsService = new google.maps.DirectionsService();
@@ -170,7 +170,7 @@ class NearByMap extends Component {
 
                             <div>
                                 {<ul>{(!searchFlag && "Default Nearst Places") || "Searched Places"}{venues.map((item, index) => {
-                                    return (<li>{"P" + index + " : "}{(!searchFlag && item.venue.name) || item.name}</li>)
+                                    return (<li key={index + "list"} >{"P" + index + " : "}{(!searchFlag && item.venue.name) || item.name}</li>)
                                 })}
                                 </ul>
 

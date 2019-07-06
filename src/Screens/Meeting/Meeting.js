@@ -34,14 +34,14 @@ class Meeting extends Component {
   profileRender(imagesarray, FullName, Nickname) {
     const { imageIndex } = this.state;
 
-    var imagesarray = imagesarray;
+    // var imagesarray = imagesarray;
 
     // if (imagesarray.length < 3){
 
     // }
 
     return (
-      <div className="App" onSwipeLeft={this.imageIndexCounter}>
+      <div className="App" >
         <div className="imagescontainer">
           <div className="swipeimagestag">
             <div id="myCarousel" className="carousel slide" data-ride="carousel">
@@ -52,7 +52,7 @@ class Meeting extends Component {
                 {imagesarray.map((item, index) => {
                   return (
 
-                    <li data-slide-to={index} className={imageIndex === index && "active"}></li>
+                    <li key={index + "007"} data-slide-to={index} className={(imageIndex === index)? "active" : "  "}></li>
                   )
                 })}
 
@@ -60,14 +60,14 @@ class Meeting extends Component {
 
               <img src={imagesarray[imageIndex]} alt="Los Angeles" style={{ width: "100%", height: "85vh" }} />
 
-              <a className="left carousel-control" href onClick={(e) => { e.preventDefault(); this.imageIndexCounter("dec") }} data-slide="prev">
+              <li className="left carousel-control"  onClick={(e) => { e.preventDefault(); this.imageIndexCounter("dec") }} data-slide="prev">
                 <span className="glyphicon glyphicon-chevron-left"></span>
                 <span className="sr-only">Previous</span>
-              </a>
-              <a className="right carousel-control" href onClick={(e) => { e.preventDefault(); this.imageIndexCounter("inc") }} data-slide="next">
+              </li>
+              <li className="right carousel-control"  onClick={(e) => { e.preventDefault(); this.imageIndexCounter("inc") }} data-slide="next">
                 <span className="glyphicon glyphicon-chevron-right"></span>
                 <span className="sr-only">Next</span>
-              </a>
+              </li>
             </div>
           </div>
           <div className="nameUsername" style={{ height: "15vh" }}>
@@ -127,14 +127,14 @@ class Meeting extends Component {
 
     // const { imageurl1, imageurl2, imageurl3, imageurl4 } = this.state;
     // var imagesarray = [imageurl1, imageurl2, imageurl3, imageurl4]
-    var imagesarray = [];
+    // var imagesarray = [];
     const users = this.props.users;
 
 
     return (
       <Cards  onEnd={()=>{this.action('end')}} size={[width, height]} cardSize={[width, height]} className='master-root'>
         {users.map((user, index) =>
-          <Card key={index}
+          <Card key={index+ "11"}
             onSwipeLeft={() => { this.action("swipe left") }}
             onSwipeRight={() => { this.action("swipe right", user,index) }}>
             {
